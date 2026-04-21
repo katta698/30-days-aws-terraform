@@ -20,5 +20,5 @@ Day 3 Blog: https://www.jayanthkatta.com/2026/04/day-3-creating-my-first-s3-buck
 
 Day 4 Blog: https://www.jayanthkatta.com/2026/04/day-4-terraform-state-file-management.html
 
-Day 6 Blog: 
+Day 5 Blog: 
 
