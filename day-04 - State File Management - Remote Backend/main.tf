@@ -26,6 +26,6 @@ resource "aws_s3_bucket" "demo_bucket" {
 
   tags = {
     Name = "Day4 Demo Bucket"
-    Env = "Dev"
+    Env = "Development"
   }
 }
