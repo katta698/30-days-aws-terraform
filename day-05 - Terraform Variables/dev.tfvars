@@ -1,2 +1,2 @@
 environment = "development"
-bucket_name = "dev-demo-bucket"
+bucket_name = "dev-jay-bucket"

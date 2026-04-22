@@ -1,2 +1,2 @@
-environment = "jay-demo"
-bucket_name = "terraform-demo-bucket"
+environment = "test"
+bucket_name = "jay-demo-bucket"
