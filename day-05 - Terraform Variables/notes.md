@@ -124,9 +124,22 @@ Environment variables can override silently
 Different tfvars files simulate environments
 Some values are only known after apply
 
-# Commands used
+# Before running
+
+Make sure these are already available:
+Terraform installed
+AWS CLI configured
+S3 bucket permissions available
+Backend configuration updated if using remote state
+
+# Commands to run
+1. Initialize
 terraform init
+2. Plan
 terraform plan
+3. Apply
 terraform apply
+4. Output
 terraform output
+5. Destroy
 terraform destroy
