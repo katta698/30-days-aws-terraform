@@ -5,7 +5,7 @@ variable "environment" {
 }
 
 variable "bucket_name" {
-  description = "S3 bucket name"
+  description = "s3 bucket name"
   type        = string
   default     = "jay-storage"
 }
