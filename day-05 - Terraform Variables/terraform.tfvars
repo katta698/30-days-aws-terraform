@@ -1,2 +1,2 @@
 environment = "Qa"
-bucket_name = "ameya-Trishna"
+bucket_name = "Trishna"
