@@ -11,6 +11,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 5: Terraform Variables
 - Day 6: Organizing Terraform Files the Right Way
 - Day 7: 
+- Day 8: 
 
 ## Blog
 
@@ -27,4 +28,6 @@ Day 5 Blog: https://www.jayanthkatta.com/2026/04/day-5-terraform-variables.html
 Day 6 Blog: https://www.jayanthkatta.com/2026/04/day-6-organizing-terraform-files-right.html
 
 Day 7 Blog: 
+
+Day 8 Blog: 
 
