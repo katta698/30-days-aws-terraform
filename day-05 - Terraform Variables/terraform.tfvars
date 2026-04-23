@@ -1,2 +1,2 @@
-environment = "test"
-bucket_name = "ameya-bucket"
+environment = "Qa"
+bucket_name = "ameya-Trishna"
