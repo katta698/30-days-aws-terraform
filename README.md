@@ -12,7 +12,6 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 6: Organizing Terraform Files the Right Way
 - Day 7: 
 - Day 8: 
-- Day 9:
 
 ## Blog
 
