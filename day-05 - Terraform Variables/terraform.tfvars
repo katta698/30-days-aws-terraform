@@ -1,2 +1,2 @@
-environment = "Qa"
-bucket_name = "Trishna"
+environment = "qa"
+bucket_name = "trishna"
