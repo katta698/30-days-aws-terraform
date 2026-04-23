@@ -9,7 +9,8 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 3: AWS S3 Bucket with Terraform
 - Day 4: Terraform State File Management with Remote Backend
 - Day 5: Terraform Variables
-- Day 6: 
+- Day 6: Organizing Terraform Files the Right Way
+- Day 7: 
 
 ## Blog
 
@@ -23,5 +24,7 @@ Day 4 Blog: https://www.jayanthkatta.com/2026/04/day-4-terraform-state-file-mana
 
 Day 5 Blog: https://www.jayanthkatta.com/2026/04/day-5-terraform-variables.html
 
-Day 6 Blog: 
+Day 6 Blog: https://www.jayanthkatta.com/2026/04/day-6-organizing-terraform-files-right.html
+
+Day 7 Blog: 
 
