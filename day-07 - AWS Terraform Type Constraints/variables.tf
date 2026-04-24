@@ -60,15 +60,15 @@ variable "common_tags" {
 # -----------------------
 
 variable "server_tuple" {
-  type = tuple([string, number, bool])
+  type        = tuple([string, number, bool])
   description = "Tuple: name, disk size, is production"
 }
 
 variable "network_config" {
   type = object({
-    vpc_cidr      = string
-    subnet_cidrs  = list(string)
-    enable_dns    = bool
+    vpc_cidr     = string
+    subnet_cidrs = list(string)
+    enable_dns   = bool
   })
 
   validation {
