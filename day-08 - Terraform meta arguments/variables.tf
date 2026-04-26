@@ -12,3 +12,12 @@ variable "foreach_buckets" {
   type    = set(string)
   default = ["foreach-one", "foreach-two"]
 }
+
+variable "foreach_bucket_map" {
+  type = map(string)
+
+  default = {
+    app  = "app-bucket"
+    logs = "logs-bucket"
+  }
+}

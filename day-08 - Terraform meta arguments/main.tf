@@ -25,6 +25,20 @@ resource "aws_s3_bucket" "foreach_demo" {
 }
 
 # -----------------------------
+# FOR_EACH WITH MAP (KEY + VALUE)
+# -----------------------------
+resource "aws_s3_bucket" "foreach_map_demo" {
+  for_each = var.foreach_bucket_map
+
+  bucket = "jay-day8-${each.key}-${each.value}"
+
+  tags = merge(local.common_tags, {
+    KeyName   = each.key
+    ValueName = each.value
+  })
+}
+
+# -----------------------------
 # DEPENDS_ON EXAMPLE
 # -----------------------------
 resource "aws_s3_bucket" "dependent_bucket" {
