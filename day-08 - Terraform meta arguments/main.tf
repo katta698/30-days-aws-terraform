@@ -53,9 +53,9 @@ resource "aws_s3_bucket" "dependent_bucket" {
 resource "aws_s3_bucket" "protected_bucket" {
   bucket = "jay-day8-protected"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  #lifecycle {
+    #prevent_destroy = true
+  #}
 
   tags = merge(local.common_tags, {
     Type = "protected"
