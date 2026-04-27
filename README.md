@@ -12,7 +12,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 6: Organizing Terraform Files the Right Way
 - Day 7: Type Constraints in Terraform
 - Day 8: Understanding Meta Arguments
-- Day 9:
+- Day 9: Terraform Lifecycle Meta Arguments in AWS
 - Day 10:
 - Day 11:
 - Day 12:
@@ -53,7 +53,7 @@ Day 7 Blog: https://www.jayanthkatta.com/2026/04/day-7-type-constraints-in-terra
 
 Day 8 Blog: https://www.jayanthkatta.com/2026/04/day-8-understanding-meta-arguments.html
 
-Day 9 Blog:
+Day 9 Blog: https://www.jayanthkatta.com/2026/04/day-9-terraform-lifecycle-meta.html
 
 Day 10 Blog:
 
