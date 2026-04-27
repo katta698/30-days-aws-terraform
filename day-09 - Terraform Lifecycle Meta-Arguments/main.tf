@@ -27,8 +27,8 @@ resource "aws_s3_bucket" "zero_downtime_bucket" {
   bucket = "${local.bucket_prefix}-cbd"
 
   tags = merge(local.common_tags, {
-    Name        = "create-before-destroy-demo"
-    Lifecycle  = "create_before_destroy"
+    Name      = "create-before-destroy-demo"
+    Lifecycle = "create_before_destroy"
   })
 
   lifecycle {
@@ -46,12 +46,12 @@ resource "aws_s3_bucket" "protected_bucket" {
   bucket = "${local.bucket_prefix}-protected"
 
   tags = merge(local.common_tags, {
-    Name       = "protected-critical-bucket"
+    Name      = "protected-critical-bucket"
     Lifecycle = "prevent_destroy"
   })
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
@@ -65,7 +65,7 @@ resource "aws_s3_bucket" "ignore_changes_bucket" {
   bucket = "${local.bucket_prefix}-ignore"
 
   tags = merge(local.common_tags, {
-    Name       = "ignore-changes-demo"
+    Name      = "ignore-changes-demo"
     Lifecycle = "ignore_changes"
     Owner     = "Jay"
   })
@@ -84,7 +84,7 @@ resource "aws_s3_bucket" "ignore_changes_bucket" {
 # ------------------------------------------------------------
 
 resource "random_pet" "deployment_version" {
-  length = 2
+  length = 3
 }
 
 resource "aws_s3_bucket" "replace_trigger_bucket" {
@@ -112,7 +112,7 @@ resource "aws_s3_bucket" "precondition_bucket" {
   bucket = "${local.bucket_prefix}-precheck"
 
   tags = merge(local.common_tags, {
-    Name       = "precondition-demo"
+    Name      = "precondition-demo"
     Lifecycle = "precondition"
   })
 
@@ -134,9 +134,10 @@ resource "aws_s3_bucket" "postcondition_bucket" {
 
   tags = merge(local.common_tags, {
     Name       = "postcondition-demo"
-    Lifecycle = "postcondition"
+    Lifecycle  = "postcondition"
     Compliance = "Learning"
-  })
+   })
+ 
 
   lifecycle {
     postcondition {
