@@ -14,7 +14,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 8: Understanding Meta Arguments
 - Day 9: Terraform Lifecycle Meta Arguments in AWS
 - Day 10: Terraform Dynamic Blocks, Conditional Expressions, and Splat Expressions
-- Day 11:
+- Day 11: Terraform Functions Part 1
 - Day 12:
 - Day 13:
 - Day 14:
@@ -57,5 +57,5 @@ Day 9 Blog: https://www.jayanthkatta.com/2026/04/day-9-terraform-lifecycle-meta.
 
 Day 10 Blog: https://www.jayanthkatta.com/2026/04/day-10-terraform-dynamic-blocks.html
 
-Day 11 Blog:
+Day 11 Blog: https://www.jayanthkatta.com/2026/04/day-11-terraform-functions-part-1.html
 
