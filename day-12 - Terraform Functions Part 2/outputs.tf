@@ -75,5 +75,10 @@ output "timestamp" {
 }
 
 output "json_content" {
-  value = local.config_json
+  value     = local.config_json
+  sensitive = true
+}
+
+output "day12_bucket_name" {
+  value = aws_s3_bucket.day12_bucket.bucket
 }

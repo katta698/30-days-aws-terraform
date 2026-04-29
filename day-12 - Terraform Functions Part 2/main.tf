@@ -78,13 +78,12 @@ resource "aws_instance" "day11_ec2" {
 ############################################################
 
 resource "aws_s3_bucket" "day12_bucket" {
-  # Using timestamp() to make bucket name unique
-  bucket = "jay-day12-${replace(timestamp(), ":", "-")}"
+  bucket = "jay-day12-${local.timestamp_safe_name}"
 
-  tags = {
-    # Using formatdate() for readable timestamp
+  tags = merge(local.common_tags, {
+    Name      = "jay-day12-${local.timestamp_safe_name}"
     CreatedAt = local.formatted_time
-  }
+  })
 }
 
 ############################################################
