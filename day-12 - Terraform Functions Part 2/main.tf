@@ -91,7 +91,7 @@ resource "aws_s3_bucket" "day12_bucket" {
 ############################################################
 
 resource "aws_secretsmanager_secret" "config_secret" {
-  name = "day12-config-secret"
+  name = "day12-config-secret-${local.timestamp_safe_name}"
 }
 
 resource "aws_secretsmanager_secret_version" "config_secret_value" {
