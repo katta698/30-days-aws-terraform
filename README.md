@@ -16,7 +16,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 10: Terraform Dynamic Blocks, Conditional Expressions, and Splat Expressions
 - Day 11: Terraform Functions Part 1
 - Day 12: Terraform Functions Part 2
-- Day 13:
+- Day 13: Terraform Data Sources
 - Day 14:
 - Day 15:
 - Day 16:
@@ -60,4 +60,6 @@ Day 10 Blog: https://www.jayanthkatta.com/2026/04/day-10-terraform-dynamic-block
 Day 11 Blog: https://www.jayanthkatta.com/2026/04/day-11-terraform-functions-part-1.html
 
 Day 12 Blog: https://www.jayanthkatta.com/2026/04/day-12-terraform-functions-part-2.html
+
+Day 13 Blog: https://www.jayanthkatta.com/2026/04/day-13-terraform-data-sources.html
 
