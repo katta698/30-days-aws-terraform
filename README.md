@@ -17,7 +17,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 11: Terraform Functions Part 1
 - Day 12: Terraform Functions Part 2
 - Day 13: Terraform Data Sources
-- Day 14:
+- Day 14: Static Website Hosting using Terraform
 - Day 15:
 - Day 16:
 - Day 17:
@@ -62,4 +62,6 @@ Day 11 Blog: https://www.jayanthkatta.com/2026/04/day-11-terraform-functions-par
 Day 12 Blog: https://www.jayanthkatta.com/2026/04/day-12-terraform-functions-part-2.html
 
 Day 13 Blog: https://www.jayanthkatta.com/2026/04/day-13-terraform-data-sources.html
+
+Day 14 Blog: https://www.jayanthkatta.com/2026/05/day-14-static-website-hosting-using.html
 
