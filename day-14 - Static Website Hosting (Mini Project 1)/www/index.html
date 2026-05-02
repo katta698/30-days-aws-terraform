@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 14 Static Website</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <h1>Day 14: Static Website Hosting</h1>
+      <p>This website is hosted on a private S3 bucket and delivered securely through CloudFront.</p>
+
+      <div class="architecture">
+        <span>User</span>
+        <span>→</span>
+        <span>CloudFront</span>
+        <span>→</span>
+        <span>Private S3</span>
+      </div>
+
+      <div class="buttons">
+        <button onclick="toggleTheme()">Toggle Theme</button>
+        <button onclick="incrementCounter()">Click Me</button>
+      </div>
+
+      <p id="counter">Clicks: 0</p>
+      <p class="status">Status: Website loaded successfully from AWS.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
