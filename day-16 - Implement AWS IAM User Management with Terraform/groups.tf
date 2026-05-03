@@ -29,14 +29,7 @@ resource "aws_iam_group_membership" "managers" {
 
   users = [
     for user in aws_iam_user.users : user.name
-    if contains([
-      "Regional Manager",
-      "Quality Assurance Manager",
-      "Warehouse Manager",
-      "Sales Manager",
-      "CEO",
-      "CFO"
-    ], user.tags.JobTitle)
+    if can(regex("Manager|CEO|Vice President|Director|CFO", user.tags.JobTitle))
   ]
 }
 
