@@ -17,4 +17,5 @@ terraform.rc
 
 Testing/
 
+aws-keys/
 *.pem

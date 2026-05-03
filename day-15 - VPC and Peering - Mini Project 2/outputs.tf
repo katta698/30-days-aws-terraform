@@ -36,7 +36,7 @@ output "secondary_instance_private_ip" {
 output "test_from_primary" {
   description = "Commands to test from primary EC2"
   value       = <<EOT
-ssh -i vpc-peering-demo.pem ec2-user@${aws_instance.primary.public_ip}
+ssh -i /c/Users/katta/Downloads/30-days-aws-terraform/aws-keys/vpc-peering-demo-new.pem ec2-user@${aws_instance.primary.public_ip}
 
 ping ${aws_instance.secondary.private_ip}
 curl http://${aws_instance.secondary.private_ip}
@@ -46,7 +46,7 @@ EOT
 output "test_from_secondary" {
   description = "Commands to test from secondary EC2"
   value       = <<EOT
-ssh -i vpc-peering-demo.pem ec2-user@${aws_instance.secondary.public_ip}
+ssh -i /c/Users/katta/Downloads/30-days-aws-terraform/aws-keys/vpc-peering-demo-new-west.pem ec2-user@${aws_instance.secondary.public_ip}
 
 ping ${aws_instance.primary.private_ip}
 curl http://${aws_instance.primary.private_ip}
