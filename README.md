@@ -20,7 +20,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 14: Static Website Hosting using Terraform
 - Day 15: Cross Region VPC Peering with Terraform
 - Day 16: Managing AWS IAM Users with Terraform using CSV
-- Day 17:
+- Day 17: AWS Elastic Beanstalk Blue Green Deployment with Terraform
 - Day 18:
 - Day 19:
 - Day 20:
@@ -68,4 +68,6 @@ Day 14 Blog: https://www.jayanthkatta.com/2026/05/day-14-static-website-hosting-
 Day 15 Blog: https://www.jayanthkatta.com/2026/05/day-15-cross-region-vpc-peering-with.html
 
 Day 16 Blog: https://www.jayanthkatta.com/2026/05/day-16-managing-aws-iam-users-with.html
+
+Day 17 Blog: https://www.jayanthkatta.com/2026/05/day-17-aws-elastic-beanstalk-blue-green.html
 
