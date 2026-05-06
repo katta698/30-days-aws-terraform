@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+cd "$ROOT_DIR/terraform"
+
+UPLOAD_BUCKET=$(terraform output -raw upload_bucket_name || true)
+PROCESSED_BUCKET=$(terraform output -raw processed_bucket_name || true)
+
+if [ -n "$UPLOAD_BUCKET" ]; then
+  echo "Emptying upload bucket: $UPLOAD_BUCKET"
+  aws s3 rm "s3://$UPLOAD_BUCKET" --recursive || true
+fi
+
+if [ -n "$PROCESSED_BUCKET" ]; then
+  echo "Emptying processed bucket: $PROCESSED_BUCKET"
+  aws s3 rm "s3://$PROCESSED_BUCKET" --recursive || true
+fi
+
+echo "Destroying Terraform resources..."
+terraform destroy -auto-approve
+
+echo "Cleanup completed."
