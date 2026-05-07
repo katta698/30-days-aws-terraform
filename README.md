@@ -74,3 +74,5 @@ Day 17 Blog: https://www.jayanthkatta.com/2026/05/day-17-aws-elastic-beanstalk-b
 Day 18 Blog: https://www.jayanthkatta.com/2026/05/day-18-serverless-image-processing-with.html
 
 Day 19 Blog: https://www.jayanthkatta.com/2026/05/day-19-understanding-terraform.html
+
+Day 20 Blog: https://www.jayanthkatta.com/2026/05/day-20-deploying-amazon-eks-cluster.html
