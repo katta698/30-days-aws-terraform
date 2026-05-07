@@ -22,7 +22,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 16: Managing AWS IAM Users with Terraform using CSV
 - Day 17: AWS Elastic Beanstalk Blue Green Deployment with Terraform
 - Day 18: Serverless Image Processing with AWS Lambda, S3, and Terraform
-- Day 19:
+- Day 19: Terraform Provisioners Demo
 - Day 20:
 - Day 21:
 - Day 22:
@@ -72,3 +72,5 @@ Day 16 Blog: https://www.jayanthkatta.com/2026/05/day-16-managing-aws-iam-users-
 Day 17 Blog: https://www.jayanthkatta.com/2026/05/day-17-aws-elastic-beanstalk-blue-green.html
 
 Day 18 Blog: https://www.jayanthkatta.com/2026/05/day-18-serverless-image-processing-with.html
+
+Day 19 Blog: https://www.jayanthkatta.com/2026/05/day-19-understanding-terraform.html
