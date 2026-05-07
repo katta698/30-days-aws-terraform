@@ -23,7 +23,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 17: AWS Elastic Beanstalk Blue Green Deployment with Terraform
 - Day 18: Serverless Image Processing with AWS Lambda, S3, and Terraform
 - Day 19: Terraform Provisioners Demo
-- Day 20:
+- Day 20: Deploying an Amazon EKS Cluster Using Custom Terraform Modules
 - Day 21:
 - Day 22:
 - Day 23
