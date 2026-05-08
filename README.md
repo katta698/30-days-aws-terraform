@@ -24,7 +24,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 18: Serverless Image Processing with AWS Lambda, S3, and Terraform
 - Day 19: Terraform Provisioners Demo
 - Day 20: Deploying an Amazon EKS Cluster Using Custom Terraform Modules
-- Day 21:
+- Day 21: AWS Policy and Governance
 - Day 22:
 - Day 23
 - Day 24:
@@ -76,3 +76,5 @@ Day 18 Blog: https://www.jayanthkatta.com/2026/05/day-18-serverless-image-proces
 Day 19 Blog: https://www.jayanthkatta.com/2026/05/day-19-understanding-terraform.html
 
 Day 20 Blog: https://www.jayanthkatta.com/2026/05/day-20-deploying-amazon-eks-cluster.html
+
+Day 21 Blog: https://www.jayanthkatta.com/2026/05/day-21-aws-policy-and-governance.html
