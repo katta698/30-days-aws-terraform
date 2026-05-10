@@ -25,7 +25,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 19: Terraform Provisioners Demo
 - Day 20: Deploying an Amazon EKS Cluster Using Custom Terraform Modules
 - Day 21: AWS Policy and Governance
-- Day 22:
+- Day 22: Deploying an RDS MySQL Web Application Stack with Terraform Modules
 - Day 23
 - Day 24:
 - Day 25:
@@ -78,3 +78,5 @@ Day 19 Blog: https://www.jayanthkatta.com/2026/05/day-19-understanding-terraform
 Day 20 Blog: https://www.jayanthkatta.com/2026/05/day-20-deploying-amazon-eks-cluster.html
 
 Day 21 Blog: https://www.jayanthkatta.com/2026/05/day-21-aws-policy-and-governance.html
+
+Day 22 Blog: https://www.jayanthkatta.com/2026/05/day-22-deploying-rds-mysql-web.html
