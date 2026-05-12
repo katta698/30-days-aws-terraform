@@ -27,7 +27,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 21: AWS Policy and Governance
 - Day 22: Deploying an RDS MySQL Web Application Stack with Terraform Modules
 - Day 23  Building S3 Security & Operations Monitoring using Terraform, CloudTrail, CloudWatch and SNS
-- Day 24:
+- Day 24: Highly Available and Scalable Django Application on AWS using Terraform
 - Day 25:
 - Day 26:
 - Day 27:
@@ -82,3 +82,5 @@ Day 21 Blog: https://www.jayanthkatta.com/2026/05/day-21-aws-policy-and-governan
 Day 22 Blog: https://www.jayanthkatta.com/2026/05/day-22-deploying-rds-mysql-web.html
 
 Day 23 Blog: https://www.jayanthkatta.com/2026/05/day-23-building-s3-security-operations.html
+
+Day 24 Blog: https://www.jayanthkatta.com/2026/05/day-24-highly-available-and-scalable.html
