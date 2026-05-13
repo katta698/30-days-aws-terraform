@@ -8,5 +8,6 @@ resource "aws_s3_bucket" "my_bucket" {
   tags = {
     Name        = "Day3Bucket"
     Environment = "Learning"
+    owner = "Ameya"
   }
 }
