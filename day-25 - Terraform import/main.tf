@@ -57,6 +57,6 @@ resource "aws_instance" "imported_ec2" {
     Project     = "Day25TerraformImport"
     ManagedBy   = "Terraform"
     Environment = "dev"
-    owner       = "katta"
+    owner       = "Ameya"
   }
 }
