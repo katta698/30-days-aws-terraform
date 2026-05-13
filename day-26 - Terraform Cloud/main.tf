@@ -3,7 +3,7 @@ terraform {
     organization = "katta"
 
     workspaces {
-      name = "day26-terraform-cloud"
+      name = "testworkspace"
     }
   }
 
