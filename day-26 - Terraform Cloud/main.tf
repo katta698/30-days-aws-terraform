@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "YOUR_HCP_TERRAFORM_ORG_NAME"
+    organization = "katta"
 
     workspaces {
       name = "day26-terraform-cloud"
@@ -105,6 +105,7 @@ resource "aws_s3_bucket" "demo" {
   tags = {
     Name        = "${var.project_name}-bucket"
     Environment = var.environment
+    Owner       = var.owner
   }
 }
 
