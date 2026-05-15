@@ -7,12 +7,14 @@ on:
       - "**.tf"
       - "**.sh"
       - ".github/workflows/terraform.yml"
+
   push:
     branches: [ main ]
     paths:
       - "**.tf"
       - "**.sh"
       - ".github/workflows/terraform.yml"
+
   workflow_dispatch:
     inputs:
       action:
@@ -36,8 +38,10 @@ env:
 
 jobs:
   terraform:
-    name: Terraform ${{ github.event_name == 'pull_request' && 'Plan' || 'Deploy' }}
+    name: Terraform CI/CD
     runs-on: ubuntu-latest
+
+    environment: Prod
 
     steps:
       - name: Checkout repository
@@ -64,16 +68,15 @@ jobs:
         run: terraform validate
 
       - name: Terraform plan
-        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
         run: terraform plan -out=tfplan
 
       - name: Terraform apply on main push
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
 
       - name: Manual apply
         if: github.event_name == 'workflow_dispatch' && inputs.action == 'apply'
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
 
       - name: Manual destroy
         if: github.event_name == 'workflow_dispatch' && inputs.action == 'destroy'
