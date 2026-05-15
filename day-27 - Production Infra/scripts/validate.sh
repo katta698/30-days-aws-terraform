@@ -7,8 +7,25 @@ ASG_NAME=$(terraform output -raw asg_name)
 VPC_ID=$(terraform output -raw vpc_id)
 S3_BUCKET=$(terraform output -raw s3_bucket_name)
 
-echo "Application URL: http://$ALB_DNS"
-curl -I "http://$ALB_DNS"
+APP_URL="http://$ALB_DNS"
+
+echo "Application URL: $APP_URL"
+echo "Waiting for application to become reachable..."
+
+for i in {1..20}; do
+  if curl -s -I "$APP_URL" >/dev/null; then
+    echo "Application is reachable"
+    break
+  fi
+
+  echo "Attempt $i failed. Retrying in 15 seconds..."
+  sleep 15
+
+  if [ "$i" -eq 20 ]; then
+    echo "Application validation failed after retries"
+    exit 1
+  fi
+done
 
 echo "Target health:"
 aws elbv2 describe-target-health \
@@ -30,3 +47,5 @@ aws ec2 describe-subnets \
 
 echo "S3 bucket:"
 aws s3 ls "s3://$S3_BUCKET/" || true
+
+echo "Deployment validation completed successfully"
