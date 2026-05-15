@@ -4,15 +4,13 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - "**.tf"
-      - "**.sh"
+      - "day-27 - Production Infra/**"
       - ".github/workflows/terraform.yml"
 
   push:
     branches: [ main ]
     paths:
-      - "**.tf"
-      - "**.sh"
+      - "day-27 - Production Infra/**"
       - ".github/workflows/terraform.yml"
 
   workflow_dispatch:
@@ -42,6 +40,10 @@ jobs:
     runs-on: ubuntu-latest
 
     environment: Prod
+
+    defaults:
+      run:
+        working-directory: day-27 - Production Infra
 
     steps:
       - name: Checkout repository
