@@ -30,7 +30,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 24: Highly Available and Scalable Django Application on AWS using Terraform
 - Day 25: Terraform Import for Existing AWS Resources
 - Day 26: Hashicorp Cloud Platform Terraform
-- Day 27: 
+- Day 27: Production Style AWS Infrastructure with Terraform and GitHub Actions CI/CD
 - Day 28:
 - Day 29:
 - Day 30:
@@ -88,3 +88,5 @@ Day 24 Blog: https://www.jayanthkatta.com/2026/05/day-24-highly-available-and-sc
 Day 25 Blog: https://www.jayanthkatta.com/2026/05/day-25-terraform-import-for-existing.html
 
 Day 26 Blog: https://www.jayanthkatta.com/2026/05/day-26-terraform-cloud-and-workspace.html
+
+Day 27 Blog: https://www.jayanthkatta.com/2026/05/day-27-production-style-aws.html
