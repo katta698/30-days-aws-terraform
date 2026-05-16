@@ -1,5 +1,9 @@
 name: Day 28 Dev Deploy 3 Tier App
 
+concurrency:
+  group: day28-dev-terraform
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -7,6 +11,7 @@ on:
     paths:
       - "day-28 - 3-Tier AWS Infrastructure/**"
       - ".github/workflows/day28-dev-deploy.yml"
+
   pull_request:
     branches:
       - main
@@ -16,7 +21,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  TF_DIR: day-28 - 3-Tier AWS Infrastructure/terraform
+  TF_DIR: "day-28 - 3-Tier AWS Infrastructure/terraform"
   FRONTEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/goal-tracker-frontend
   BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/goal-tracker-backend
 
@@ -39,7 +44,7 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
         with:
-          context: day-28 - 3-Tier AWS Infrastructure/frontend
+          context: "day-28 - 3-Tier AWS Infrastructure/frontend"
           push: true
           tags: |
             ${{ env.FRONTEND_IMAGE }}:latest
@@ -48,7 +53,7 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v6
         with:
-          context: day-28 - 3-Tier AWS Infrastructure/backend
+          context: "day-28 - 3-Tier AWS Infrastructure/backend"
           push: true
           tags: |
             ${{ env.BACKEND_IMAGE }}:latest
@@ -82,13 +87,23 @@ jobs:
         working-directory: ${{ env.TF_DIR }}
         run: terraform init
 
+      - name: Create terraform.auto.tfvars
+        working-directory: ${{ env.TF_DIR }}
+        run: |
+          cat > terraform.auto.tfvars <<EOF
+          frontend_image = "${{ env.FRONTEND_IMAGE }}:latest"
+          backend_image  = "${{ env.BACKEND_IMAGE }}:latest"
+          db_password    = "${{ secrets.DB_PASSWORD }}"
+          my_ip_cidr     = "${{ secrets.MY_IP_CIDR }}"
+          EOF
+
       - name: Terraform validate
         working-directory: ${{ env.TF_DIR }}
         run: terraform validate
 
       - name: Terraform plan
         working-directory: ${{ env.TF_DIR }}
-        run: terraform plan
+        run: terraform plan -input=false
 
   terraform-apply-dev:
     name: Terraform Apply Dev
@@ -114,6 +129,16 @@ jobs:
         working-directory: ${{ env.TF_DIR }}
         run: terraform init
 
+      - name: Create terraform.auto.tfvars
+        working-directory: ${{ env.TF_DIR }}
+        run: |
+          cat > terraform.auto.tfvars <<EOF
+          frontend_image = "${{ env.FRONTEND_IMAGE }}:latest"
+          backend_image  = "${{ env.BACKEND_IMAGE }}:latest"
+          db_password    = "${{ secrets.DB_PASSWORD }}"
+          my_ip_cidr     = "${{ secrets.MY_IP_CIDR }}"
+          EOF
+
       - name: Terraform apply
         working-directory: ${{ env.TF_DIR }}
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -input=false
