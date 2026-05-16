@@ -6,11 +6,13 @@ on:
       - main
     paths:
       - "day-28 - 3-Tier AWS Infrastructure/**"
+      - ".github/workflows/day28-dev-deploy.yml"
   pull_request:
     branches:
       - main
     paths:
       - "day-28 - 3-Tier AWS Infrastructure/**"
+      - ".github/workflows/day28-dev-deploy.yml"
 
 env:
   AWS_REGION: us-east-1
