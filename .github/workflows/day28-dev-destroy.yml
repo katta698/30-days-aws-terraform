@@ -1,0 +1,57 @@
+name: Day 28 Dev Destroy 3 Tier App
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_destroy:
+        description: "Type DESTROY to confirm"
+        required: true
+        type: string
+
+concurrency:
+  group: day28-dev-terraform
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-1
+  TF_DIR: "day-28 - 3-Tier AWS Infrastructure/terraform"
+  FRONTEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/goal-tracker-frontend
+  BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/goal-tracker-backend
+
+jobs:
+  terraform-destroy:
+    name: Terraform Destroy Dev
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm_destroy == 'DESTROY'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        working-directory: ${{ env.TF_DIR }}
+        run: terraform init
+
+      - name: Create terraform.auto.tfvars
+        working-directory: ${{ env.TF_DIR }}
+        run: |
+          cat > terraform.auto.tfvars <<EOF
+          frontend_image = "${{ env.FRONTEND_IMAGE }}:latest"
+          backend_image  = "${{ env.BACKEND_IMAGE }}:latest"
+          db_password    = "${{ secrets.DB_PASSWORD }}"
+          my_ip_cidr     = "${{ secrets.MY_IP_CIDR }}"
+          EOF
+
+      - name: Terraform destroy
+        working-directory: ${{ env.TF_DIR }}
+        run: terraform destroy -auto-approve -input=false
