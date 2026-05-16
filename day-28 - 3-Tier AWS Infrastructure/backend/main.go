@@ -18,7 +18,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 
 	connStr := fmt.Sprintf(
-		"host=%s port=%s dbname=%s user=%s password=%s sslmode=disable",
+		"host=%s port=%s dbname=%s user=%s password=%s sslmode=require",
 		dbHost,
 		dbPort,
 		dbName,
