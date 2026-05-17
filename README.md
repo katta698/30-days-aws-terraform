@@ -32,7 +32,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 26: Hashicorp Cloud Platform Terraform
 - Day 27: Production Style AWS Infrastructure with Terraform and GitHub Actions CI/CD
 - Day 28: Building a Highly Available 3-Tier AWS Application with Terraform and GitHub Actions
-- Day 29:
+- Day 29: GitOps Patient Zero — Continuous Delivery on AWS EKS with Argo CD and Kustomize
 - Day 30:
 
 ## Blog
@@ -92,3 +92,5 @@ Day 26 Blog: https://www.jayanthkatta.com/2026/05/day-26-terraform-cloud-and-wor
 Day 27 Blog: https://www.jayanthkatta.com/2026/05/day-27-production-style-aws.html
 
 Day 28 Blog: https://www.jayanthkatta.com/2026/05/day-28-building-highly-available-3-tier.html
+
+Day 29 Blog: https://www.jayanthkatta.com/2026/05/day-29-gitops-patient-zero-continuous.html
