@@ -15,7 +15,7 @@ output "configure_kubectl" {
 
 output "argocd_namespace" {
   description = "Argo CD namespace"
-  value       = kubernetes_namespace.argocd.metadata[0].name
+  value       = kubernetes_namespace_v1.argocd.metadata[0].name
 }
 
 output "argocd_password_command" {

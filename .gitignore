@@ -19,3 +19,5 @@ Testing/
 
 aws-keys/
 *.pem
+
+day-29 - GitOps Patient Zero EKS, Argo CD, and Kustomize
