@@ -35,7 +35,7 @@ resource "aws_launch_template" "web_lt" {
 }
 
 resource "aws_autoscaling_group" "web_asg" {
-  # 🌟 ADD THIS LINE TO FIX THE CLI VALIDATION ERROR 🌟
+  # TO FIX THE CLI VALIDATION ERROR 
   name                = "${var.environment}-web-asg"
   
   desired_capacity    = 2

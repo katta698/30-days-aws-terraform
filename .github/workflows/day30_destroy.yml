@@ -17,7 +17,7 @@ jobs:
   destroy:
     runs-on: ubuntu-latest
     
-    # 🌟 FIXED: Ensures the runner drops directly into your Terraform source code directory
+    # Ensures the runner drops directly into your Terraform source code directory
     defaults:
       run:
         working-directory: "./day-30 - drift-detection/code"
@@ -40,5 +40,5 @@ jobs:
         run: terraform init -backend-config=backend-${{ github.event.inputs.environment }}.hcl
         
       - name: Terraform Destroy
-        # 🌟 FIXED: Removed the undeclared -var flag since state tracking handles resources natively
+        # Removed the undeclared -var flag since state tracking handles resources natively
         run: terraform destroy -auto-approve

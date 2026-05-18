@@ -39,7 +39,7 @@ resource "aws_route_table" "public" {
   }
 }
 
-# 🌟 EXPLICITLY ENSURE BOTH PUBLIC SUBNETS ARE ASSOCIATED 🌟
+# ENSURE BOTH PUBLIC SUBNETS ARE ASSOCIATED
 resource "aws_route_table_association" "public_assoc" {
   count          = 2
   subnet_id      = aws_subnet.public[count.index].id

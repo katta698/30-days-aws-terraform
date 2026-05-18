@@ -27,7 +27,7 @@ resource "aws_security_group" "instance_sg" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = [aws_security_group.alb_sg.id] # 🌟 Crucial: Allows the ALB to ping the instances
+    security_groups = [aws_security_group.alb_sg.id] # Crucial: Allows the ALB to ping the instances
   }
 
   egress {
