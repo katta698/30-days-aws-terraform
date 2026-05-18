@@ -79,30 +79,29 @@ jobs:
       - name: Auto-Close Remediation Ticket
         if: always() && steps.check_drift.outputs.exitcode == 2
         uses: actions/github-script@v7
+        env:
+          # 🌟 SOLUTION: Pass the raw URL payload directly into the script environment
+          BOT_ISSUE_URL: ${{ steps.open_issue.outputs.issue }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // 🌟 NATIVE LOOKUP: Query recent repo issues created by the bot directly
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              creator: 'github-actions[bot]',
-              sort: 'created',
-              direction: 'desc',
-              per_page: 5
-            });
+            const issueUrl = process.env.BOT_ISSUE_URL;
+            console.log(`Received Issue URL from bot: ${issueUrl}`);
             
-            // Find the most recent issue containing our environment token
-            const targetIssue = issues.find(i => i.title.includes(`[ALERT] Infrastructure Drift Detected - ${process.env.TARGET_ENV}`));
-            
-            if (!targetIssue) {
-              console.log(`CRITICAL: No matching open drift issue found for environment: ${process.env.TARGET_ENV}`);
+            if (!issueUrl) {
+              console.log("CRITICAL: No issue URL was passed from the creation step.");
               return;
             }
             
-            const issueNumber = targetIssue.number;
-            console.log(`Successfully intercepted target ticket: Issue #${issueNumber}. Closing out loop...`);
+            // Extract the digits at the very end of the URL string
+            const match = issueUrl.match(/\/issues\/(\d+)$/);
+            if (!match) {
+              console.log(`CRITICAL: Could not parse issue number from URL: ${issueUrl}`);
+              return;
+            }
+            
+            const issueNumber = parseInt(match[1], 10);
+            console.log(`Successfully parsed active target: Issue #${issueNumber}. Resolving loop...`);
             
             // Append validation comment to audit trail
             await github.rest.issues.createComment({
@@ -112,7 +111,7 @@ jobs:
               body: "✅ **Auto-Remediation Successful**: The pipeline has successfully executed `terraform apply` to strip out unauthorized configuration drift. Moving this tracking ticket to completed."
             });
             
-            // Close the ticket cleanly
+            // Close the ticket smoothly
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
