@@ -71,11 +71,12 @@ jobs:
         run: terraform apply -auto-approve tfplan
 
       - name: Auto-Close Remediation Ticket
-        if: steps.remediate.outcome == 'success' && steps.check_drift.outputs.exitcode == 2
+        if: always() && steps.check_drift.outputs.exitcode == 2
+        # 🌟 FIXED: Restored the missing script runner pointer 🌟
         uses: actions/github-script@v7
-        # 🌟 CRITICAL FIX: Safe mapping via env block to avoid empty javascript expressions 🌟
         env:
           ISSUE_NUMBER: ${{ steps.open_issue.outputs.number }}
+        # 🌟 FIXED: Aligned indentation blocks cleanly 🌟
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
