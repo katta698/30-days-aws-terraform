@@ -1,0 +1,22 @@
+name: "Teardown Infrastructure"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to completely destroy'
+        required: true
+        default: 'dev'
+        type: choice
+        options: [dev, prod]
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: "us-east-1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init -backend-config=backend-${{ github.event.inputs.environment }}.hcl
+      - run: terraform destroy -var="environment=${{ github.event.inputs.environment }}" -auto-approve

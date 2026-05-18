@@ -1,0 +1,46 @@
+name: "Automated Drift Detection & Remediation"
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to evaluate'
+        required: true
+        default: 'prod'
+        type: choice
+        options: [dev, prod]
+permissions:
+  contents: read
+  issues: write
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: "us-east-1"
+      TARGET_ENV: ${{ github.event.inputs.environment || 'prod' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init -backend-config=backend-${{ env.TARGET_ENV }}.hcl
+      - name: Core Drift Evaluation
+        id: check_drift
+        run: |
+          set +e
+          terraform plan -var="environment=${{ env.TARGET_ENV }}" -detailed-exitcode -out=tfplan
+          TF_EXIT=$?
+          set -e
+          echo "exit_code=$TF_EXIT" >> $GITHUB_OUTPUT
+      - name: Open Tracking Auditing Issue
+        if: steps.check_drift.outputs.exit_code == '2'
+        uses: imjohnbo/issue-bot@v3
+        with:
+          title: "[ALERT] Infrastructure Drift - ${{ env.TARGET_ENV }}"
+          body: "Drift detected on running state. Auto-remediation active."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Auto-Remediation Execution
+        if: steps.check_drift.outputs.exit_code == '2'
+        run: terraform apply -auto-approve tfplan
