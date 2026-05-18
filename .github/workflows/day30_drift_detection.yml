@@ -11,7 +11,6 @@ on:
         default: 'dev'
         type: choice
         options: [dev, prod]
-  # 🌟 FIXES TEST 1: Allows instantaneous external webhooks to trigger the guard dog
   repository_dispatch:
     types: [aws-drift-alert]
 
@@ -32,7 +31,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: "us-east-1"
       TARGET_ENV: ${{ github.event.inputs.environment || 'dev' }}
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # For slack integration
 
     steps:
       - name: Checkout Code
@@ -43,6 +41,13 @@ jobs:
         with:
           terraform_version: "1.7.0"
 
+      - name: Debug Directory Structure
+        run: |
+          echo "=== CURRENT DIRECTORY ==="
+          pwd
+          echo "=== REPOSITORY ROOT CONTENTS ==="
+          ls -R
+
       - name: Terraform Init
         run: terraform init -backend-config=backend-${{ env.TARGET_ENV }}.hcl
 
@@ -50,7 +55,6 @@ jobs:
         id: check_drift
         run: terraform plan -var="environment=${{ env.TARGET_ENV }}" -detailed-exitcode -out=tfplan
 
-      # 🌟 FIXES TEST 4 (Part A): Open an issue & notify Slack when drift is found
       - name: Open Tracking Auditing Issue
         if: steps.check_drift.outputs.exitcode == 2
         id: open_issue
@@ -61,42 +65,37 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Notify Slack - Drift Detected
-        if: steps.check_drift.outputs.exitcode == 2
-        run: |
-          echo "Sending alert to Slack channel..."
-          # curl -X POST -H 'Content-type: application/json' --data '{"text":"🚨 *Drift Detected in ${{ env.TARGET_ENV }}!* Auto-remediation running..."}' $SLACK_WEBHOOK_URL
-
-      # 🌟 The Core Self-Healing Step
       - name: Run Auto-Remediation Execution
         if: steps.check_drift.outputs.exitcode == 2
         id: remediate
         run: terraform apply -auto-approve tfplan
 
-      # 🌟 FIXES TEST 4 (Part B): Automatically close the audit issue upon successful healing
       - name: Auto-Close Remediation Ticket
         if: steps.remediate.outcome == 'success' && steps.check_drift.outputs.exitcode == 2
         uses: actions/github-script@v7
+        # 🌟 CRITICAL FIX: Safe mapping via env block to avoid empty javascript expressions 🌟
+        env:
+          ISSUE_NUMBER: ${{ steps.open_issue.outputs.number }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issueNumber = ${{ steps.open_issue.outputs.number }};
+            const issueNumber = process.env.ISSUE_NUMBER;
+            if (!issueNumber) {
+              console.log("No active tracking issue found to process.");
+              return;
+            }
+            
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issueNumber,
+              issue_number: parseInt(issueNumber),
               state: 'closed',
               state_reason: 'completed'
             });
+            
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issueNumber,
+              issue_number: parseInt(issueNumber),
               body: "✅ **Auto-Remediation Successful**: Live environment has been returned to its desired Git baseline state. Closing ticket."
             });
-
-      - name: Notify Slack - Remediation Complete
-        if: steps.remediate.outcome == 'success' && steps.check_drift.outputs.exitcode == 2
-        run: |
-          echo "Sending success notification to Slack..."
-          # curl -X POST -H 'Content-type: application/json' --data '{"text":"✅ *Fixed!* Infrastructure drift in ${{ env.TARGET_ENV }} has been successfully auto-remediated."}' $SLACK_WEBHOOK_URL
