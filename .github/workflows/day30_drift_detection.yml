@@ -68,4 +68,4 @@ jobs:
 
       - name: Run Auto-Remediation Execution
         if: steps.check_drift.outputs.exit_code == '2'
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve "${{ github.workspace }}/day-30 - drift-detection/code/tfplan"
