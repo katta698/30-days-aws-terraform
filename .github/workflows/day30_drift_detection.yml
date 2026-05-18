@@ -8,7 +8,7 @@ on:
       environment:
         description: 'Environment to evaluate'
         required: true
-        default: 'dev' # 🌟 Updated to default to dev for your testing phase
+        default: 'dev'
         type: choice
         options: [dev, prod]
 
@@ -20,16 +20,15 @@ jobs:
   drift-check:
     runs-on: ubuntu-latest
     
-    # 🌟 CRITICAL FIX: Directs the runner to execute inside your day-30 folder 🌟
+    # 🌟 FIXED: Pointing to your exact subfolder where the .tf files live 🌟
     defaults:
       run:
-        working-directory: "./day-30 - drift-detection"
+        working-directory: "./day-30 - drift-detection/code"
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: "us-east-1"
-      # 🌟 Updated fallback to 'dev' so the background cron targets your running stack
       TARGET_ENV: ${{ github.event.inputs.environment || 'dev' }}
 
     steps:
@@ -39,14 +38,14 @@ jobs:
         with:
           terraform_version: "1.7.0"
 
-          # 🌟 ADD THIS TEMPORARY STEP TO FIND YOUR FILES 🌟
       - name: Debug Directory Structure
         run: |
           echo "=== CURRENT DIRECTORY ==="
           pwd
           echo "=== REPOSITORY ROOT CONTENTS ==="
           ls -R
-          
+
+      # This will now initialize flawlessly inside the code directory!
       - run: terraform init -backend-config=backend-${{ env.TARGET_ENV }}.hcl
 
       - name: Core Drift Evaluation
