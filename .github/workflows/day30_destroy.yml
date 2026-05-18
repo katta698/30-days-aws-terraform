@@ -40,5 +40,5 @@ jobs:
         run: terraform init -backend-config=backend-${{ github.event.inputs.environment }}.hcl
         
       - name: Terraform Destroy
-        # Removed the undeclared -var flag since state tracking handles resources natively
-        run: terraform destroy -auto-approve
+        # 🌟 FIXED: Variable injected inline to prevent the interactive console prompt from freezing the run
+        run: terraform destroy -var="environment=${{ github.event.inputs.environment }}" -lock=false -auto-approve
