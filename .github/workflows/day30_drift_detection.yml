@@ -82,16 +82,27 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // 🌟 THE BULLETPROOF FIX: Inline expression substitution 🌟
-            // This injects the exact integer output straight from your 'open_issue' step block
-            const issueNumber = parseInt("${{ steps.open_issue.outputs.number }}");
+            // 🌟 NATIVE LOOKUP: Query recent repo issues created by the bot directly
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              creator: 'github-actions[bot]',
+              sort: 'created',
+              direction: 'desc',
+              per_page: 5
+            });
             
-            if (!issueNumber || isNaN(issueNumber)) {
-              console.log("CRITICAL: Issue number payload was unparseable or missing.");
+            // Find the most recent issue containing our environment token
+            const targetIssue = issues.find(i => i.title.includes(`[ALERT] Infrastructure Drift Detected - ${process.env.TARGET_ENV}`));
+            
+            if (!targetIssue) {
+              console.log(`CRITICAL: No matching open drift issue found for environment: ${process.env.TARGET_ENV}`);
               return;
             }
             
-            console.log(`Successfully identified active drift ticket: Issue #${issueNumber}. Resolving...`);
+            const issueNumber = targetIssue.number;
+            console.log(`Successfully intercepted target ticket: Issue #${issueNumber}. Closing out loop...`);
             
             // Append validation comment to audit trail
             await github.rest.issues.createComment({
