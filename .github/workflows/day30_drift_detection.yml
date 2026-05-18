@@ -79,34 +79,40 @@ jobs:
       - name: Auto-Close Remediation Ticket
         if: always() && steps.check_drift.outputs.exitcode == 2
         uses: actions/github-script@v7
-        env:
-          # 🌟 SOLUTION: Map the direct tracking number from the bot step cleanly inside the env block
-          EXTRACTED_ISSUE_NUMBER: ${{ steps.open_issue.outputs.number }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issueNumber = process.env.EXTRACTED_ISSUE_NUMBER;
+            // 🌟 Dynamic Lookup Strategy 🌟
+            // Fetch open issues matching the title string directly via the API
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
             
-            if (!issueNumber || issueNumber === "") {
-              console.log("No explicit issue tracking token forwarded from the creation step.");
+            const targetIssue = issues.find(i => i.title.includes(`[ALERT] Infrastructure Drift Detected - ${process.env.TARGET_ENV}`));
+            
+            if (!targetIssue) {
+              console.log(`No active open issue matching the title pattern found for environment: ${process.env.TARGET_ENV}`);
               return;
             }
             
-            console.log(`Targeting Issue #${issueNumber} for automated closeout validation.`);
+            const issueNumber = targetIssue.number;
+            console.log(`Successfully identified active drift ticket: Issue #${issueNumber}. Resolving...`);
             
             // Append validation comment to audit trail
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: parseInt(issueNumber),
+              issue_number: issueNumber,
               body: "✅ **Auto-Remediation Successful**: The pipeline has successfully executed `terraform apply` to strip out unauthorized configuration drift. Moving this tracking ticket to completed."
             });
             
-            // Close the ticket smoothly
+            // Close the ticket cleanly
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: parseInt(issueNumber),
+              issue_number: issueNumber,
               state: 'closed',
               state_reason: 'completed'
             });
