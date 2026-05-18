@@ -82,22 +82,15 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // 🌟 Dynamic Lookup Strategy 🌟
-            // Fetch open issues matching the title string directly via the API
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open'
-            });
+            // 🌟 THE BULLETPROOF FIX: Inline expression substitution 🌟
+            // This injects the exact integer output straight from your 'open_issue' step block
+            const issueNumber = parseInt("${{ steps.open_issue.outputs.number }}");
             
-            const targetIssue = issues.find(i => i.title.includes(`[ALERT] Infrastructure Drift Detected - ${process.env.TARGET_ENV}`));
-            
-            if (!targetIssue) {
-              console.log(`No active open issue matching the title pattern found for environment: ${process.env.TARGET_ENV}`);
+            if (!issueNumber || isNaN(issueNumber)) {
+              console.log("CRITICAL: Issue number payload was unparseable or missing.");
               return;
             }
             
-            const issueNumber = targetIssue.number;
             console.log(`Successfully identified active drift ticket: Issue #${issueNumber}. Resolving...`);
             
             // Append validation comment to audit trail
