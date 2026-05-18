@@ -17,7 +17,6 @@ jobs:
   destroy:
     runs-on: ubuntu-latest
     
-    # Ensures the runner drops directly into your Terraform source code directory
     defaults:
       run:
         working-directory: "./day-30 - drift-detection/code"
@@ -39,6 +38,11 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config=backend-${{ github.event.inputs.environment }}.hcl
         
+      - name: Break Ghost State Lock
+        # 🌟 FORCE UNLOCK: Evicts the stale lock ID left behind by the canceled runner step
+        run: terraform force-unlock -force 8b09124c-fd19-549c-39a1-c0287c7d5a11
+        continue-on-error: true # Ensures dev teardown won't fail if dev doesn't have a stuck lock
+        
       - name: Terraform Destroy
-        # 🌟 FIXED: Variable injected inline to prevent the interactive console prompt from freezing the run
-        run: terraform destroy -var="environment=${{ github.event.inputs.environment }}" -lock=false -auto-approve
+        run: terraform destroy -var="environment=${{ github.event.inputs.environment }}" -auto-approve
+      
