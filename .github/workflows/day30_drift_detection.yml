@@ -20,7 +20,6 @@ jobs:
   drift-check:
     runs-on: ubuntu-latest
     
-    # 🌟 FIXED: Pointing to your exact subfolder where the .tf files live 🌟
     defaults:
       run:
         working-directory: "./day-30 - drift-detection/code"
@@ -32,9 +31,11 @@ jobs:
       TARGET_ENV: ${{ github.event.inputs.environment || 'dev' }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - uses: hashicorp/setup-terraform@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.7.0"
 
@@ -45,20 +46,17 @@ jobs:
           echo "=== REPOSITORY ROOT CONTENTS ==="
           ls -R
 
-      # This will now initialize flawlessly inside the code directory!
-      - run: terraform init -backend-config=backend-${{ env.TARGET_ENV }}.hcl
+      - name: Terraform Init
+        run: terraform init -backend-config=backend-${{ env.TARGET_ENV }}.hcl
 
       - name: Core Drift Evaluation
+        # 🌟 Native step ID used to pass outputs to subsequent steps 🌟
         id: check_drift
-        run: |
-          set +e
-          terraform plan -var="environment=${{ env.TARGET_ENV }}" -detailed-exitcode -out=tfplan
-          TF_EXIT=$?
-          set -e
-          echo "exit_code=$TF_EXIT" >> $GITHUB_OUTPUT
+        run: terraform plan -var="environment=${{ env.TARGET_ENV }}" -detailed-exitcode -out=tfplan
 
       - name: Open Tracking Auditing Issue
-        if: steps.check_drift.outputs.exit_code == '2'
+        # 🌟 Evaluates natively using the official setup-terraform wrapper outputs 🌟
+        if: steps.check_drift.outputs.exitcode == 2
         uses: imjohnbo/issue-bot@v3
         with:
           title: "[ALERT] Infrastructure Drift - ${{ env.TARGET_ENV }}"
@@ -67,8 +65,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Auto-Remediation Execution
-        if: steps.check_drift.outputs.exit_code == '2'
-        # 🌟 FORCE THE APPLY TO FIND THE PLAN USING AN ABSOLUTE PATH 🌟
-        run: |
-          cd "${{ github.workspace }}/day-30 - drift-detection/code"
-          terraform apply -auto-approve tfplan
+        # 🌟 Executes only if native exitcode indicates structural drift 🌟
+        if: steps.check_drift.outputs.exitcode == 2
+        working-directory: "./day-30 - drift-detection/code"
+        run: terraform apply -auto-approve tfplan
