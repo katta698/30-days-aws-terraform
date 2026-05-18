@@ -14,13 +14,21 @@ on:
   repository_dispatch:
     types: [aws-drift-alert]
 
+# 🌟 Core repository-level access configurations
 permissions:
   contents: read
   issues: write
+  pull-requests: write
 
 jobs:
   drift-check:
     runs-on: ubuntu-latest
+    
+    # 🌟 Enforces elevated OAuth token write permissions explicitly inside the runner execution context
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     
     defaults:
       run:
@@ -72,31 +80,39 @@ jobs:
 
       - name: Auto-Close Remediation Ticket
         if: always() && steps.check_drift.outputs.exitcode == 2
-        # 🌟 FIXED: Restored the missing script runner pointer 🌟
         uses: actions/github-script@v7
-        env:
-          ISSUE_NUMBER: ${{ steps.open_issue.outputs.number }}
-        # 🌟 FIXED: Aligned indentation blocks cleanly 🌟
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issueNumber = process.env.ISSUE_NUMBER;
-            if (!issueNumber) {
-              console.log("No active tracking issue found to process.");
+            // 🌟 Dynamic API query: Finds the issue matching our specific environment title string
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+            
+            const targetIssue = issues.find(i => i.title.includes(`[ALERT] Infrastructure Drift Detected - ${process.env.TARGET_ENV}`));
+            
+            if (!targetIssue) {
+              console.log("No matching open drift tracking ticket found to close.");
               return;
             }
             
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: parseInt(issueNumber),
-              state: 'closed',
-              state_reason: 'completed'
-            });
+            const issueNumber = targetIssue.number;
             
+            // Append validation comment to audit trail
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: parseInt(issueNumber),
-              body: "✅ **Auto-Remediation Successful**: Live environment has been returned to its desired Git baseline state. Closing ticket."
+              issue_number: issueNumber,
+              body: "✅ **Auto-Remediation Successful**: The pipeline has successfully executed `terraform apply` to strip out unauthorized configuration drift. Moving this tracking ticket to completed."
+            });
+            
+            // Close the ticket smoothly
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              state: 'closed',
+              state_reason: 'completed'
             });
