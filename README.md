@@ -33,7 +33,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 27: Production Style AWS Infrastructure with Terraform and GitHub Actions CI/CD
 - Day 28: Building a Highly Available 3-Tier AWS Application with Terraform and GitHub Actions
 - Day 29: GitOps Patient Zero — Continuous Delivery on AWS EKS with Argo CD and Kustomize
-- Day 30:
+- Day 30: Multi-Environment GitOps Drift Detection with Automated Remediation
 
 ## Blog
 
@@ -94,3 +94,5 @@ Day 27 Blog: https://www.jayanthkatta.com/2026/05/day-27-production-style-aws.ht
 Day 28 Blog: https://www.jayanthkatta.com/2026/05/day-28-building-highly-available-3-tier.html
 
 Day 29 Blog: https://www.jayanthkatta.com/2026/05/day-29-gitops-patient-zero-continuous.html
+
+Day 30 Blog: https://www.jayanthkatta.com/2026/05/day-30-multi-environment-gitops-drift.html
