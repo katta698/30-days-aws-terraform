@@ -1,8 +1,8 @@
 name: "Automated Drift Detection & Remediation"
 
 on:
-  schedule:
-    - cron: "*/1 * * * *"
+  #schedule:
+  # - cron: "*/1 * * * *"
   workflow_dispatch:
     inputs:
       environment:
