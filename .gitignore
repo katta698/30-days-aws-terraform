@@ -1,21 +1,38 @@
+# ── Terraform internals ───────────────────────────────────────────────────────
 .terraform/
+.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
-
-*.tfvars
-*.tfvars.json
-
+tfplan
 crash.log
 
+# ── Secrets — copy *.tfvars.example → *.tfvars and fill in your values ───────
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+
+# ── Override files (local experiments, never commit) ─────────────────────────
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
-
 .terraformrc
 terraform.rc
 
-Testing/
-
+# ── SSH private keys ──────────────────────────────────────────────────────────
 aws-keys/
 *.pem
+
+# ── Build artifacts ───────────────────────────────────────────────────────────
+build/python/
+*.zip
+**/build/*.zip
+
+# ── Scratch / personal notes (not for public repo) ───────────────────────────
+Testing/
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~
