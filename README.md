@@ -26,7 +26,7 @@ This repository documents my journey of learning Terraform and AWS.
 - Day 20: Deploying an Amazon EKS Cluster Using Custom Terraform Modules
 - Day 21: AWS Policy and Governance
 - Day 22: Deploying an RDS MySQL Web Application Stack with Terraform Modules
-- Day 23  Building S3 Security & Operations Monitoring using Terraform, CloudTrail, CloudWatch and SNS
+- Day 23: Building S3 Security & Operations Monitoring using Terraform, CloudTrail, CloudWatch and SNS
 - Day 24: Highly Available and Scalable Django Application on AWS using Terraform
 - Day 25: Terraform Import for Existing AWS Resources
 - Day 26: Hashicorp Cloud Platform Terraform
